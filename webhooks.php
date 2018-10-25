@@ -48,7 +48,7 @@ if (!is_null($events['events'])) {
 			curl_close($ch);
 			echo $result . "\r\n";
 
-		} elseif ($event['message']['text'] == 'ขอดูรูปหน่อย') {
+		} elseif ($event['type'] == 'message' && $event['message']['type'] == 'text' && $event['message']['text'] == 'ขอดูรูปหน่อย') {
 			// Get text sent
 			$text = $event['source']['userId'];
 
