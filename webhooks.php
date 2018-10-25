@@ -15,7 +15,7 @@ if (!is_null($events['events'])) {
 	foreach ($events['events'] as $event) {
 
 		// Reply only when message sent is in 'text' format
-		if ($event['type'] == 'message' && $event['message']['type'] == 'text' && $event['message']['text'] == 'Hello') {
+		if ($event['type'] == 'message' && $event['message']['type'] == 'text' && $event['message']['text'] == 'สวัสดี') {
 			// Get text sent
 			$text = $event['source']['userId'];
 
@@ -46,9 +46,9 @@ if (!is_null($events['events'])) {
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			$result = curl_exec($ch);
 			curl_close($ch);
-
 			echo $result . "\r\n";
-		} elseif ($event['type'] == 'message' && $event['message']['type'] == 'text' && $event['message']['text'] == 'สวัสดีครับ') {
+
+		} elseif ($event['message']['text'] == 'ขอดูรูปหน่อย') {
 			// Get text sent
 			$text = $event['source']['userId'];
 
@@ -56,9 +56,11 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			// Build message to reply back
+			$image_url = "https://i.pinimg.com/originals/cc/22/d1/cc22d10d9096e70fe3dbe3be2630182b.jpg";
 			$messages = [
-				'type' => 'text',
-				'text' => 'สวัสดีครับ มีอะไรให้รับใช่หรือเปล่าครับ'
+				'type' => 'image',
+				'originalContentUrl' => $image_url,
+				'previewImageUrl' => $image_url
 			];
 
 			// Make a POST Request to Messaging API to reply to sender
@@ -79,8 +81,8 @@ if (!is_null($events['events'])) {
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			$result = curl_exec($ch);
 			curl_close($ch);
-
 			echo $result . "\r\n";
+
 		}
 
 	}
