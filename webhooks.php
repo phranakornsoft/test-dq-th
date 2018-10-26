@@ -53,6 +53,8 @@ $id = $arrayJson['events'][0]['source']['userId'];
 //รับข้อความจากผู้ใช้
 $message = $arrayJson['events'][0]['message']['text'];
 #ตัวอย่าง Message Type "Text"
+$message = "สินค้าใหม่";
+
 if($message == "สวัสดี"){
     $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
     $arrayPostData['messages'][0]['type'] = "text";
@@ -108,12 +110,11 @@ else if($message == "นับ 1-10"){
 }
 # Test Card
 else if($message == "สินค้าใหม่"){
-	
 	$columns = array();
 	$img_url = "https://cdn.shopify.com/s/files/1/0379/7669/products/sampleset2_1024x1024.JPG?v=1458740363";
 	for($i=0;$i<5;$i++) {
 		$actions = array(
-			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("Add to Cart","action=carousel&button=".$i),
+			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("Add to Card","action=carousel&button=".$i),
 			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder("View","http://www.google.com")
 		);
 		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Title", "description", $img_url , $actions);
@@ -121,52 +122,6 @@ else if($message == "สินค้าใหม่"){
 	}
 	$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
 	$arrayPostData = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Carousel Demo", $carousel);
-
-	// กำหนด action 4 ปุ่ม 4 ประเภท
-	//  $actionBuilder = array(
-	// 	new MessageTemplateActionBuilder(
-	// 		'Message Template',// ข้อความแสดงในปุ่ม
-	// 		'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-	// 	),
-	// 	new UriTemplateActionBuilder(
-	// 		'Uri Template', // ข้อความแสดงในปุ่ม
-	// 		'https://www.phranakornsoft.com'
-	// 	),
-	// 	new PostbackTemplateActionBuilder(
-	// 		'Postback', // ข้อความแสดงในปุ่ม
-	// 		http_build_query(array(
-	// 			'action'=>'buy',
-	// 			'item'=>100
-	// 		)), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-	// 	'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-	// 	),  
-	// );
-
-	// $arrayPostData = new TemplateMessageBuilder('Carousel',
-	// 		new CarouselTemplateBuilder(
-	// 		array(
-	// 			new CarouselColumnTemplateBuilder(
-	// 				'Title Carousel',
-	// 				'Description Carousel',
-	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--dvHyDzdM--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18589-x-2-ZD9YHf',
-	// 				$actionBuilder
-	// 			),
-	// 			new CarouselColumnTemplateBuilder(
-	// 				'Title Carousel',
-	// 				'Description Carousel',
-	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--bOVLNxnY--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18592-coconut-with-sticky-rice-blizz-p7inqy',
-	// 				$actionBuilder
-	// 			),
-	// 			new CarouselColumnTemplateBuilder(
-	// 				'Title Carousel',
-	// 				'Description Carousel',
-	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--jOaq21IL--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18591-coconut-with-toasted-coconut-f-bpxnMg',
-	// 				$actionBuilder
-	// 			),
-	// 		)
-	// 	)
-	// );
-
 	replyMsg($arrayHeader,$arrayPostData);
 }
 
