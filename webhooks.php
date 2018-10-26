@@ -113,8 +113,8 @@ else if($message == "สินค้าใหม่"){
 		New \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("no", "ans=N")
 	);
 	$button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder("confim message", $actions);
-	$arrayPostData = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("confim message", $button);
-	// $response = $bot->replyMessage($event->getReplyToken(), $outputText);
+	$outputText = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("confim message", $button);
+	$response = $bot->replyMessage($event->getReplyToken(), $outputText);
 
 	// กำหนด action 4 ปุ่ม 4 ประเภท
 	//  $actionBuilder = array(
