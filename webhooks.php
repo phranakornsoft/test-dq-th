@@ -49,8 +49,8 @@ $arrayHeader[] = "Authorization: Bearer {$access_token}";
 
  //รับ id ของผู้ใช้
 $id = $arrayJson['events'][0]['source']['userId'];
-$latitude = $arrayJson['events'][0]['source']['latitude'];
-$longitude = $arrayJson['events'][0]['source']['longitude'];
+
+$id = "U3c4f306fd28e58ce9cec852d82a26093";
 
 //รับข้อความจากผู้ใช้
 $message = $arrayJson['events'][0]['message']['text'];
@@ -78,8 +78,17 @@ else if($message == "ฝันดี"){
     replyMsg($arrayHeader,$arrayPostData);
 }
 #ตัวอย่าง Message Type "Image"
-else if($message == "รูปน้องแมว"){
-    $image_url = "https://i.pinimg.com/originals/cc/22/d1/cc22d10d9096e70fe3dbe3be2630182b.jpg";
+else if($message == "สินค้าใหม่"){
+    $image_url = "https://res.cloudinary.com/ginja-co-ltd/image/upload/s--jOaq21IL--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18591-coconut-with-toasted-coconut-f-bpxnMg";
+    $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
+    $arrayPostData['messages'][0]['type'] = "image";
+    $arrayPostData['messages'][0]['originalContentUrl'] = $image_url;
+    $arrayPostData['messages'][0]['previewImageUrl'] = $image_url;
+    replyMsg($arrayHeader,$arrayPostData);
+}
+#ตัวอย่าง Message Type "Image"
+else if($message == "สินค้าแนะนำ"){
+    $image_url = "https://instagram.fbkk1-1.fna.fbcdn.net/vp/ffcce6fc7f7414fff0c467d649d23b28/5C49892F/t51.2885-15/e35/39913432_1080136448829110_7739658958633172992_n.jpg";
     $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
     $arrayPostData['messages'][0]['type'] = "image";
     $arrayPostData['messages'][0]['originalContentUrl'] = $image_url;
@@ -117,32 +126,15 @@ else if($message == "นับ 1-10"){
 	}
 }
 # Test Card
-else if($message == "สินค้าใหม่"){
-	$columns = array();
-	$img_url = "https://cdn.shopify.com/s/files/1/0379/7669/products/sampleset2_1024x1024.JPG?v=1458740363";
-	for($i=0;$i<5;$i++) {
-		$actions = array(
-			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("Add to Card","action=carousel&button=".$i),
-			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder("View","http://www.google.com")
-		);
-		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Title", "description", $img_url , $actions);
-		$columns[] = $column;
-	}
-	$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
-	$arrayPostData = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Carousel Demo", $carousel);
-
-	replyMsg($arrayHeader,$arrayPostData);
+else if($message == "card"){
+	
 }
-// Check Location User
-elseif ($arrayJson['events'][0]['message']['text']=="") {
-
-	$arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
-	$arrayPostData['messages'][0]['type'] = "location";
-	$arrayPostData['messages'][0]['title'] = "สยามพารากอน";
-	$arrayPostData['messages'][0]['address'] =   "13.7465354,100.532752";
-	$arrayPostData['messages'][0]['latitude'] = "13.7465354";
-	$arrayPostData['messages'][0]['longitude'] = "100.532752";
-	replyMsg($arrayHeader,$arrayPostData);
+// End
+else {
+	$arrayPostData['to'] = $id;
+	$arrayPostData['messages'][0]['type'] = "text";
+	$arrayPostData['messages'][0]['text'] = "ไม่เข้าใจ UserID = ".$id;
+	pushMsg($arrayHeader,$arrayPostData);
 }
 
 
@@ -158,7 +150,7 @@ function replyMsg($arrayHeader,$arrayPostData){
 	curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arrayPostData));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	$result = curl_exec($ch);
+	echo $result = curl_exec($ch);
 	curl_close ($ch);
 }
 exit;
@@ -173,7 +165,7 @@ function pushMsg($arrayHeader,$arrayPostData){
 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($arrayPostData));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	$result = curl_exec($ch);
+	echo $result = curl_exec($ch);
 	curl_close ($ch);
 }
 exit;
