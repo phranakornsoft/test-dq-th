@@ -49,7 +49,8 @@ $arrayHeader[] = "Authorization: Bearer {$access_token}";
 
  //รับ id ของผู้ใช้
 $id = $arrayJson['events'][0]['source']['userId'];
-$id = $arrayJson['events'][0]['source']['userId'];
+$latitude = $arrayJson['events'][0]['source']['latitude'];
+$longitude = $arrayJson['events'][0]['source']['longitude'];
 
 //รับข้อความจากผู้ใช้
 $message = $arrayJson['events'][0]['message']['text'];
@@ -65,7 +66,7 @@ if($message == "สวัสดี"){
 else if ($event['type'] == 'location' && $event['message']['type'] == 'location'){
     $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
     $arrayPostData['messages'][0]['type'] = "text";
-    $arrayPostData['messages'][0]['text'] = "คุณแชร์โลมา UserID = ".$id;
+    $arrayPostData['messages'][0]['text'] = "คุณแชร์โลมา UserID = ".$id." latitude=".$latitude." longitude=".$longitude;
     replyMsg($arrayHeader,$arrayPostData);
 }
 #ตัวอย่าง Message Type "Sticker"
