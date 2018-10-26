@@ -62,7 +62,7 @@ else if($message == "ลาก่อน"){
     replyMsg($arrayHeader,$arrayPostData);
 }
 
-#Test Card
+#Test push
 else if($message == "นับ 1-10"){
 	for($i=1;$i<=10;$i++){
 		$arrayPostData['to'] = $id;
@@ -71,7 +71,59 @@ else if($message == "นับ 1-10"){
 		pushMsg($arrayHeader,$arrayPostData);
 	}
 }
+# Test Card
+else if($message == "สินค้าใหม่"){
+$arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
+$arrayPostData['messages'][0]['type'] = "template";
+$arrayPostData['messages'][0]['altText'] = "this is a carousel template";
+$arrayPostData['messages'][0]['template'] = {
+    "type": "carousel",
+    "actions": [],
+    "columns": [
+      {
+        "thumbnailImageUrl": "http://cliparting.com/wp-content/uploads/2016/06/Snoopy-happy-new-year-clipart-clipart-free-clipart-microsoft-image.png",
+        "title": "          Happy New Year",
+        "text": "         Happy 2018 Event",
+        "actions": [
+          {
+            "type": "message",
+            "label": "New Year Promotion",
+            "text": "New Year Promotion"
+          }
+        ]
+      },
+      {
+        "thumbnailImageUrl": "https://ssl.pstatic.net/linefriends/wp-content/uploads/2017/03/char_choco_name.png",
+        "title": "      New Character Choco",
+        "text": "       New Character Event",
+        "actions": [
+          {
+            "type": "message",
+            "label": "New Character Promotion",
+            "text": "New Character Promotion"
+          }
+        ]
+      },
+      {
+        "thumbnailImageUrl": "https://ssl.pstatic.net/linefriends/wp-content/uploads/2017/03/char_pc_top.jpg",
+        "title": "          New Open Store",
+        "text": "            Opening Event",
+        "actions": [
+          {
+            "type": "message",
+            "label": "New Store Promotion",
+            "text": "New Store Promotion"
+          }
+        ]
+      }
+    ]
+  };
+	replyMsg($arrayHeader,$arrayPostData);
+}
 
+
+
+// Function LINE
 function replyMsg($arrayHeader,$arrayPostData){
 	$strUrl = "https://api.line.me/v2/bot/message/reply";
 	$ch = curl_init();
