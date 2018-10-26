@@ -85,6 +85,8 @@ function replyMsg($arrayHeader,$arrayPostData){
 	$result = curl_exec($ch);
 	curl_close ($ch);
 }
+exit;
+
 function pushMsg($arrayHeader,$arrayPostData){
 	$strUrl = "https://api.line.me/v2/bot/message/push";
 	$ch = curl_init();
