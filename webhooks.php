@@ -108,51 +108,59 @@ else if($message == "นับ 1-10"){
 }
 # Test Card
 else if($message == "สินค้าใหม่"){
-	// กำหนด action 4 ปุ่ม 4 ประเภท
-	 $actionBuilder = array(
-		new MessageTemplateActionBuilder(
-			'Message Template',// ข้อความแสดงในปุ่ม
-			'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-		),
-		new UriTemplateActionBuilder(
-			'Uri Template', // ข้อความแสดงในปุ่ม
-			'https://www.phranakornsoft.com'
-		),
-		new PostbackTemplateActionBuilder(
-			'Postback', // ข้อความแสดงในปุ่ม
-			http_build_query(array(
-				'action'=>'buy',
-				'item'=>100
-			)), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-		'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-		),      
+	$actions = array (
+		New \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("yes", "ans=y"),
+		New \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("no", "ans=N")
 	);
+	$button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder("confim message", $actions);
+	$arrayPostData = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("confim message", $button);
+	// $response = $bot->replyMessage($event->getReplyToken(), $outputText);
 
-	$arrayPostData = new TemplateMessageBuilder('Carousel',
-			new CarouselTemplateBuilder(
-			array(
-				new CarouselColumnTemplateBuilder(
-					'Title Carousel',
-					'Description Carousel',
-					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--dvHyDzdM--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18589-x-2-ZD9YHf',
-					$actionBuilder
-				),
-				new CarouselColumnTemplateBuilder(
-					'Title Carousel',
-					'Description Carousel',
-					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--bOVLNxnY--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18592-coconut-with-sticky-rice-blizz-p7inqy',
-					$actionBuilder
-				),
-				new CarouselColumnTemplateBuilder(
-					'Title Carousel',
-					'Description Carousel',
-					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--jOaq21IL--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18591-coconut-with-toasted-coconut-f-bpxnMg',
-					$actionBuilder
-				),
-			)
-		)
-	);
-	
+	// กำหนด action 4 ปุ่ม 4 ประเภท
+	//  $actionBuilder = array(
+	// 	new MessageTemplateActionBuilder(
+	// 		'Message Template',// ข้อความแสดงในปุ่ม
+	// 		'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+	// 	),
+	// 	new UriTemplateActionBuilder(
+	// 		'Uri Template', // ข้อความแสดงในปุ่ม
+	// 		'https://www.phranakornsoft.com'
+	// 	),
+	// 	new PostbackTemplateActionBuilder(
+	// 		'Postback', // ข้อความแสดงในปุ่ม
+	// 		http_build_query(array(
+	// 			'action'=>'buy',
+	// 			'item'=>100
+	// 		)), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+	// 	'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+	// 	),  
+	// );
+
+	// $arrayPostData = new TemplateMessageBuilder('Carousel',
+	// 		new CarouselTemplateBuilder(
+	// 		array(
+	// 			new CarouselColumnTemplateBuilder(
+	// 				'Title Carousel',
+	// 				'Description Carousel',
+	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--dvHyDzdM--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18589-x-2-ZD9YHf',
+	// 				$actionBuilder
+	// 			),
+	// 			new CarouselColumnTemplateBuilder(
+	// 				'Title Carousel',
+	// 				'Description Carousel',
+	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--bOVLNxnY--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18592-coconut-with-sticky-rice-blizz-p7inqy',
+	// 				$actionBuilder
+	// 			),
+	// 			new CarouselColumnTemplateBuilder(
+	// 				'Title Carousel',
+	// 				'Description Carousel',
+	// 				'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--jOaq21IL--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18591-coconut-with-toasted-coconut-f-bpxnMg',
+	// 				$actionBuilder
+	// 			),
+	// 		)
+	// 	)
+	// );
+
 	replyMsg($arrayHeader,$arrayPostData);
 }
 
