@@ -53,7 +53,6 @@ $id = $arrayJson['events'][0]['source']['userId'];
 //รับข้อความจากผู้ใช้
 $message = $arrayJson['events'][0]['message']['text'];
 #ตัวอย่าง Message Type "Text"
-$message = "สินค้าใหม่";
 
 if($message == "สวัสดี"){
     $arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
