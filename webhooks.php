@@ -65,13 +65,6 @@ else if($message == "เมนูแนะนำ"){
     $arrayPostData['messages'][0]['thumbnailImageUrl'] = "https://res.cloudinary.com/ginja-co-ltd/image/upload/s--bOVLNxnY--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18592-coconut-with-sticky-rice-blizz-p7inqy";
     $arrayPostData['messages'][0]['title'] = "บลิซซาร์ด® มะพร้าวน้ำหอมกับเนื้อมะพร้าวคั่ว x2";
     $arrayPostData['messages'][0]['text'] = "บลิซซาร์ด® มะพร้าวน้ำหอมกับเนื้อมะพร้าวคั่ว ขนาด XL 2 แก้ว และน้ำแข็งแห้ง";
-    $arrayPostData['messages'][0]['actions'] = [
-            {
-              "type": "message",
-              "label": "฿ 45",
-              "text": "Product 1"
-            };
-        ]
     replyMsg($arrayHeader,$arrayPostData);
 }
 
