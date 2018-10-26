@@ -108,13 +108,19 @@ else if($message == "นับ 1-10"){
 }
 # Test Card
 else if($message == "สินค้าใหม่"){
-	$actions = array (
-		New \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("yes", "ans=y"),
-		New \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("no", "ans=N")
-	);
-	$button = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder("confim message", $actions);
-	$outputText = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("confim message", $button);
-	$response = $bot->replyMessage($event->getReplyToken(), $outputText);
+	
+	$columns = array();
+	$img_url = "https://cdn.shopify.com/s/files/1/0379/7669/products/sampleset2_1024x1024.JPG?v=1458740363";
+	for($i=0;$i<5;$i++) {
+		$actions = array(
+			new \LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder("Add to Cart","action=carousel&button=".$i),
+			new \LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder("View","http://www.google.com")
+		);
+		$column = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder("Title", "description", $img_url , $actions);
+		$columns[] = $column;
+	}
+	$carousel = new \LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder($columns);
+	$arrayPostData = new \LINE\LINEBot\MessageBuilder\TemplateMessageBuilder("Carousel Demo", $carousel);
 
 	// กำหนด action 4 ปุ่ม 4 ประเภท
 	//  $actionBuilder = array(

@@ -1,10 +1,7 @@
 <?php
+require "vendor/autoload.php";
+require_once('vendor/linecorp/line-bot-sdk/line-bot-sdk-tiny/LINEBotTiny.php');
 
-require_once 'vendor/autoload.php';
-
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
 
 $logger = new Logger('LineBot');
 $logger->pushHandler(new StreamHandler('php://stderr', Logger::DEBUG));
@@ -95,6 +92,6 @@ foreach ($events as $event) {
 		$response = $bot->replyMessage($event->getReplyToken(), $outputText);
 	}
 
-}  
+}
 
 echo "OK";
