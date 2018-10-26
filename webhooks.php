@@ -3,6 +3,41 @@
 require "vendor/autoload.php";
 require_once('vendor/linecorp/line-bot-sdk/line-bot-sdk-tiny/LINEBotTiny.php');
 
+///////////// ส่วนของการเรียกใช้งาน class ผ่าน namespace
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+//use LINE\LINEBot\Event;
+//use LINE\LINEBot\Event\BaseEvent;
+//use LINE\LINEBot\Event\MessageEvent;
+use LINE\LINEBot\MessageBuilder;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
+use LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
+use LINE\LINEBot\MessageBuilder\LocationMessageBuilder;
+use LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
+use LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
+use LINE\LINEBot\ImagemapActionBuilder;
+use LINE\LINEBot\ImagemapActionBuilder\AreaBuilder;
+use LINE\LINEBot\ImagemapActionBuilder\ImagemapMessageActionBuilder ;
+use LINE\LINEBot\ImagemapActionBuilder\ImagemapUriActionBuilder;
+use LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder;
+use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
+use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
+use LINE\LINEBot\TemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\DatetimePickerTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
+
 $access_token = 'ggO5i0vjS5wZGH9Lk5DuXy23fVC3M6jIfo12fasF0O7zzPMeKv4mwyen+y8wK4SH76+eRXK3rLJFFQLUevXr0fPFq+h3qAE6b6tnZmt/dxwsK6iH7N7WKQsq5C2Xd3pwmqAAliqiWrBF5fh7wMZuDwdB04t89/1O/w1cDnyilFU=';
 
 $content = file_get_contents('php://input');
@@ -73,51 +108,51 @@ else if($message == "นับ 1-10"){
 }
 # Test Card
 else if($message == "สินค้าใหม่"){
-$arrayPostData['replyToken'] = $arrayJson['events'][0]['replyToken'];
-$arrayPostData['messages'][0]['type'] = "template";
-$arrayPostData['messages'][0]['altText'] = "this is a carousel template";
-$arrayPostData['messages'][0]['template'] = {
-    "type": "carousel",
-    "actions": [],
-    "columns": [
-      {
-        "thumbnailImageUrl": "http://cliparting.com/wp-content/uploads/2016/06/Snoopy-happy-new-year-clipart-clipart-free-clipart-microsoft-image.png",
-        "title": "          Happy New Year",
-        "text": "         Happy 2018 Event",
-        "actions": [
-          {
-            "type": "message",
-            "label": "New Year Promotion",
-            "text": "New Year Promotion"
-          }
-        ]
-      },
-      {
-        "thumbnailImageUrl": "https://ssl.pstatic.net/linefriends/wp-content/uploads/2017/03/char_choco_name.png",
-        "title": "      New Character Choco",
-        "text": "       New Character Event",
-        "actions": [
-          {
-            "type": "message",
-            "label": "New Character Promotion",
-            "text": "New Character Promotion"
-          }
-        ]
-      },
-      {
-        "thumbnailImageUrl": "https://ssl.pstatic.net/linefriends/wp-content/uploads/2017/03/char_pc_top.jpg",
-        "title": "          New Open Store",
-        "text": "            Opening Event",
-        "actions": [
-          {
-            "type": "message",
-            "label": "New Store Promotion",
-            "text": "New Store Promotion"
-          }
-        ]
-      }
-    ]
-  };
+	// กำหนด action 4 ปุ่ม 4 ประเภท
+	 $actionBuilder = array(
+		new MessageTemplateActionBuilder(
+			'Message Template',// ข้อความแสดงในปุ่ม
+			'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+		),
+		new UriTemplateActionBuilder(
+			'Uri Template', // ข้อความแสดงในปุ่ม
+			'https://www.phranakornsoft.com'
+		),
+		new PostbackTemplateActionBuilder(
+			'Postback', // ข้อความแสดงในปุ่ม
+			http_build_query(array(
+				'action'=>'buy',
+				'item'=>100
+			)), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+		'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+		),      
+	);
+
+	$arrayPostData = new TemplateMessageBuilder('Carousel',
+			new CarouselTemplateBuilder(
+			array(
+				new CarouselColumnTemplateBuilder(
+					'Title Carousel',
+					'Description Carousel',
+					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--dvHyDzdM--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18589-x-2-ZD9YHf',
+					$actionBuilder
+				),
+				new CarouselColumnTemplateBuilder(
+					'Title Carousel',
+					'Description Carousel',
+					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--bOVLNxnY--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18592-coconut-with-sticky-rice-blizz-p7inqy',
+					$actionBuilder
+				),
+				new CarouselColumnTemplateBuilder(
+					'Title Carousel',
+					'Description Carousel',
+					'https://res.cloudinary.com/ginja-co-ltd/image/upload/s--jOaq21IL--/c_fill,h_300,q_jpegmini,w_485/v1/brands/6/inventory/products/18591-coconut-with-toasted-coconut-f-bpxnMg',
+					$actionBuilder
+				),
+			)
+		)
+	);
+	
 	replyMsg($arrayHeader,$arrayPostData);
 }
 
